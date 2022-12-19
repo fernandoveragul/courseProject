@@ -6,7 +6,8 @@ from . import CPCustomExceptions as CustomExceptions
 
 
 class CryptoPassword:
-    """Method `CryptoPassword.start()` can take dictionary with syntax sugar:
+    """
+    Method ``CryptoPassword.start()`` can take dictionary with syntax sugar:
             data_encoding = {
                 'coding': ['word', 'password'],
                 'decoding': None,
@@ -17,7 +18,8 @@ class CryptoPassword:
                 'decoding': 'decoding_pass',
                 'is_origin': False
                 }
-            Class.start(**data_??coding)"""
+            Class.start(**data_??coding)
+    """
 
     def __repr__(self):
         return 'Class <SecretPassword> was created VV_403_ISaP'
