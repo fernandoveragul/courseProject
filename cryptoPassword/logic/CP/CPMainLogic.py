@@ -1,6 +1,6 @@
 import base64 as b64
 from . import CPDictsLang as Dicts
-from . import CPCustomExceptions as CustomExceptions
+from . import CPCustomExceptions as CustomEx
 
 
 class CryptoPassword:
@@ -25,107 +25,119 @@ class CryptoPassword:
     def __call__(self):
         return False
 
-    @staticmethod
-    def __is_lowupcase_valid(any_word: str) -> bool:
-        lowercase_symbols_done_en = any((True if s in Dicts.en_EN_dict else False for s in any_word))
-        lowercase_symbols_done_ru = any((True if s in Dicts.ru_RU_dict else False for s in any_word))
-        upper_symbols_done_en = any((True if s in Dicts.en_EN_dict.upper() else False for s in any_word))
-        upper_symbols_done_ru = any((True if s in Dicts.ru_RU_dict.upper() else False for s in any_word))
+    @classmethod
+    def __is_lowupcase_valid(cls, message: str, *, is_password: bool) -> bool:
+        lowercase_symbols_done_en = any((True if s in Dicts.en_EN_dict else False for s in message))
+        lowercase_symbols_done_ru = any((True if s in Dicts.ru_RU_dict else False for s in message))
+
+        upper_symbols_done_en = any((True if s in Dicts.en_EN_dict.upper() else False for s in message))
+        upper_symbols_done_ru = any((True if s in Dicts.ru_RU_dict.upper() else False for s in message))
+
         lowercase_symbols_done = any((lowercase_symbols_done_ru, lowercase_symbols_done_en))
         uppercase_symbols_done = any((upper_symbols_done_ru, upper_symbols_done_en))
-        return all((lowercase_symbols_done, uppercase_symbols_done))
 
-    @staticmethod
-    def __is_secret_word_valid(word: str) -> bool:
+        if is_valid := all((lowercase_symbols_done, uppercase_symbols_done)):
+            return is_valid
+        else:
+            raise CustomEx.InvalidLowUpCasePassword if is_password else CustomEx.InvalidLowUpCaseSecretWord
+
+    @classmethod
+    def __check_special_symbols(cls, message: str) -> bool:
+        is_done = []
+        for i in message:
+            is_done.append(True if i in Dicts.special_symbols else False)
+
+        if is_valid := any(is_done):
+            return is_valid
+        else:
+            raise CustomEx.InvalidSpecialSymbolError
+
+    @classmethod
+    def __check_arabic_numbers(cls, message: str) -> bool:
+        is_done = []
+        for i in message:
+            is_done.append(True if i in Dicts.numbers_for_pass else False)
+
+        if is_valid := any(is_done):
+            return is_valid
+        else:
+            raise CustomEx.InvalidNumberSymbolError
+
+    @classmethod
+    def __is_secret_word_valid(cls, word: str) -> bool:
         if word == '':
-            raise CustomExceptions.EmptyAnyLineEdit
+            raise CustomEx.EmptyAnyLineEdit
 
-        if check_lowup_is_done := CryptoPassword.__is_lowupcase_valid(word):
+        if check_lowup_is_done := cls.__is_lowupcase_valid(word, is_password=False):
             if length_done := 8 < len(word) < 16:
                 return all((check_lowup_is_done, length_done))
             else:
-                raise CustomExceptions.SmallInputSecretWordError
-        else:
-            raise CustomExceptions.InvalidLowUpCaseSecretWord
+                raise CustomEx.SmallInputSecretWordError
 
-    @staticmethod
-    def __is_password_valid(password: str) -> bool:
+    @classmethod
+    def __is_password_valid(cls, password: str) -> bool:
         if password == '':
-            raise CustomExceptions.EmptyAnyLineEdit
+            raise CustomEx.EmptyAnyLineEdit
 
-        check_special_symbols_is_done = any((True if s in Dicts.special_symbols else False for s in password))
-        check_numbers_symbol_is_done = any((True if s in Dicts.numbers_for_pass else False for s in password))
-
-        if check_special_symbols_is_done is False:
-            raise CustomExceptions.InvalidSpecialSymbolError
-
-        if check_numbers_symbol_is_done is False:
-            raise CustomExceptions.InvalidNumberSymbolError
-
-        if check_lowup_is_done := CryptoPassword.__is_lowupcase_valid(password):
+        if check_lowup_is_done := cls.__is_lowupcase_valid(password, is_password=True):
             if length_password := 8 < len(password) < 32:
-                return all((check_special_symbols_is_done, check_numbers_symbol_is_done,
-                            check_lowup_is_done, length_password))
+                is_valid = all((cls.__check_special_symbols(password), cls.__check_arabic_numbers(password),
+                                check_lowup_is_done, length_password))
+                return is_valid
             else:
-                raise CustomExceptions.SmallInputPasswordError
-        else:
-            raise CustomExceptions.InvalidLowUpCasePassword
+                raise CustomEx.SmallInputPasswordError
 
-    @staticmethod
-    def __encoding(message: str, *, is_password: bool) -> str:
+    @classmethod
+    def __encoding(cls, message: str, *, is_password: bool) -> str:
         """
         ``Function encodes the received value``
-        
         :param message: current message for encode
         :return: encoded message
         """
         if is_password:
-            message_is_valid = CryptoPassword.__is_password_valid(message)
+            message_is_valid = cls.__is_password_valid(message)
         else:
-            message_is_valid = CryptoPassword.__is_secret_word_valid(message)
+            message_is_valid = cls.__is_secret_word_valid(message)
 
         encoded_message = b64.b32encode(b64.b64encode(message.encode()))
         return b64.b16encode(encoded_message).decode() if message_is_valid else ''
 
-    @staticmethod
-    def __decoding(message: str) -> str:
+    @classmethod
+    def __decoding(cls, message: str) -> str:
         """
         ``Function decodes the resulting value``
-        
         :param message: current message for decoding
         :return: decoded message
         """
         secret_password = b64.b32decode(b64.b16decode(message.encode()))
         return b64.b64decode(secret_password).decode()
 
-    @staticmethod
-    def __join_values_pass_word(word: str, password: str) -> str:
+    @classmethod
+    def __join_values_pass_word(cls, word: str, password: str) -> str:
         """
         ``The function glues two words``
-        
         :param word: encoded secret word
         :param password: encoded password
         :return: word + password
         """
-        word_ = CryptoPassword.__encoding(word, is_password=False)
-        password_ = CryptoPassword.__encoding(password, is_password=True)
+        word_ = cls.__encoding(word, is_password=False)
+        password_ = cls.__encoding(password, is_password=True)
         return f'{word_}${password_}'
 
     @classmethod
     def start(cls, /, coding: list[str, str] = None, decoding: str = None, is_origin: bool = True) -> str | None:
         """
         ``API function for use CryptoPassword``
-        
         :param coding: list strings(secret_word, password) for encoding
         :param decoding: string for decoding or NULL
         :param is_origin: if True, then encoding. If False, then decoding
         :return: encoded of decoded message
         """
         if is_origin is True:
-            return CryptoPassword.__join_values_pass_word(*coding)
+            return cls.__join_values_pass_word(*coding)
         elif is_origin is False:
             word, password = decoding.split('$') if decoding is not None else decoding
-            if word == CryptoPassword.__encoding(coding[0], is_password=False):
-                return CryptoPassword.__decoding(password)
+            if word == cls.__encoding(coding[0], is_password=False):
+                return cls.__decoding(password)
             else:
-                raise CustomExceptions.InvalidSecretWordsError
+                raise CustomEx.InvalidSecretWordsError
