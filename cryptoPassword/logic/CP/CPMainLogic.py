@@ -143,3 +143,5 @@ class CryptoPassword:
                 return cls.__decoding(password)
             else:
                 raise CustomEx.InvalidSecretWordsError
+
+                
