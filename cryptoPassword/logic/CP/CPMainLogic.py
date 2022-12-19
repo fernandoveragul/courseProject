@@ -16,7 +16,9 @@ class CryptoPassword:
                 ``'decoding': 'decoding_pass',``
                 ``'is_origin': False``
                 ``}``
-            ``Class.start(**data_??coding)``
+            ``Class.start(**data_encoding)``
+            ``OR``
+            ``Class.start(**data_decoding)``
     """
 
     def __repr__(self):
