@@ -6,7 +6,7 @@
 * выполнить ряд команд
 ***
 ```
-(venv) ...\cryptoPassword $: pip install < requarements.txt && mkdir compile && cd compile
+(venv) ...\cryptoPassword $: pip install -r requarements.txt && mkdir compile && cd compile
 (venv) ...\cryptoPassword\compile $: pyinstaller -w -D -i "..\design\main_icon.ico" ..\main.py
 ```
 _Как-то так)_
