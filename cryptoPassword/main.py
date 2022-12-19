@@ -41,9 +41,15 @@ class CurrentApplication(QtWidgets.QMainWindow, design.main_design):
             self.enterSecterPassword.setText('')
             self.enterSecretWord.setText('')
             QtWidgets.QMessageBox.information(self, "Успешно", self.INFO_MESSAGE)
-        except CustomExceptions.InvalidHashPassError as ex:
+        except CustomExceptions.InvalidSecretWordsError as ex:
             QtWidgets.QMessageBox.warning(self, "Ошибка", ex.__doc__)  # Error handling without
-        except CustomExceptions.InvalidSomeSymbolError as ex:          # stopping the program cycle
+        except CustomExceptions.InvalidSpecialSymbolError as ex:          # stopping the program cycle
+            QtWidgets.QMessageBox.warning(self, "Ошибка", ex.__doc__)
+        except CustomExceptions.InvalidLowUpCasePassword as ex:
+            QtWidgets.QMessageBox.warning(self, "Ошибка", ex.__doc__)
+        except CustomExceptions.InvalidLowUpCaseSecretWord as ex:
+            QtWidgets.QMessageBox.warning(self, "Ошибка", ex.__doc__)
+        except CustomExceptions.InvalidNumberSymbolError as ex:
             QtWidgets.QMessageBox.warning(self, "Ошибка", ex.__doc__)
         except CustomExceptions.SmallInputPasswordError as ex:
             QtWidgets.QMessageBox.warning(self, "Ошибка", ex.__doc__)
@@ -58,6 +64,7 @@ class CurrentApplication(QtWidgets.QMainWindow, design.main_design):
 
         :return: Dictionary, for use of syntactic sugar
         """
+
         if self.chbDecoding.isChecked():
             sw, sp, is_or = self.enterSecretWord.text(), self.enterSecterPassword.text(), False  # DECODING IS TRUE
             return {'coding': [sw], 'decoding': sp, 'is_origin': is_or}
