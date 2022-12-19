@@ -75,6 +75,7 @@ class CryptoPassword:
     def __encoding(message: str, *, is_password: bool) -> str:
         """
         ``Function encodes the received value``
+        
         :param message: current message for encode
         :return: encoded message
         """
@@ -90,6 +91,7 @@ class CryptoPassword:
     def __decoding(message: str) -> str:
         """
         ``Function decodes the resulting value``
+        
         :param message: current message for decoding
         :return: decoded message
         """
@@ -100,6 +102,7 @@ class CryptoPassword:
     def __join_values_pass_word(word: str, password: str) -> str:
         """
         ``The function glues two words``
+        
         :param word: encoded secret word
         :param password: encoded password
         :return: word + password
@@ -112,6 +115,7 @@ class CryptoPassword:
     def start(cls, /, coding: list[str, str] = None, decoding: str = None, is_origin: bool = True) -> str | None:
         """
         ``API function for use CryptoPassword``
+        
         :param coding: list strings(secret_word, password) for encoding
         :param decoding: string for decoding or NULL
         :param is_origin: if True, then encoding. If False, then decoding
