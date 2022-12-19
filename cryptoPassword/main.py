@@ -20,7 +20,7 @@ class CurrentApplication(QtWidgets.QMainWindow, design.main_design):
         self.about_window = None
         self.btnAbout.clicked.connect(self.info_about_app)
         self.btnCoding.clicked.connect(self.__encoding_decoding)
-        self.btnShow.clicked.connect(self.__change_show_mode)
+        self.btnShow.clicked.connect(self.__show_data)
 
         # ToolTips:
         self.btnShow.setToolTip('Кнопка "ПОКАЗАТЬ" выводит сообщение\nс введёнными секретным словом и паролем')
@@ -72,7 +72,7 @@ class CurrentApplication(QtWidgets.QMainWindow, design.main_design):
             swp, is_or = [self.enterSecretWord.text(), self.enterSecterPassword.text()], True  # DECODING IS FALSE
             return {'coding': swp, 'decoding': None, 'is_origin': is_or}
 
-    def __change_show_mode(self) -> None:
+    def __show_data(self) -> None:
         QtWidgets.QMessageBox.information(self, "Пароль и слово",
                                           f'С${self.enterSecretWord.text()[::-1]}'
                                           f'\nП${self.enterSecterPassword.text()[::-1]}')
