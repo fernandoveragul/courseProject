@@ -7,18 +7,18 @@ from . import CPCustomExceptions as CustomExceptions
 
 class CryptoPassword:
     """
-    Method ``CryptoPassword.start()`` can take dictionary with syntax sugar:
-            data_encoding = {
-                'coding': ['word', 'password'],
-                'decoding': None,
-                'is_origin': True
-                }
-            data_decoding = {
-                'coding': ['word'],
-                'decoding': 'decoding_pass',
-                'is_origin': False
-                }
-            Class.start(**data_??coding)
+    ``Method CryptoPassword.start() can take dictionary with syntax sugar:``
+            ``data_encoding = {``
+                ``'coding': ['word', 'password'],``
+                ``'decoding': None,``
+                ``'is_origin': True``
+                ``}``
+            ``data_decoding = {``
+                ``'coding': ['word'],``
+                ``'decoding': 'decoding_pass',``
+                ``'is_origin': False``
+                ``}``
+            ``Class.start(**data_??coding)``
     """
 
     def __repr__(self):
