@@ -11,7 +11,7 @@ class InvalidLowUpCaseSecretWord(Exception):
 
 
 class InvalidLowUpCasePassword(Exception):
-    """ОШИБКА: не выполнено ограничение на верхний и нижний регистр символов секретного слова, подробнее в справке"""
+    """ОШИБКА: не выполнено ограничение на верхний и нижний регистр символов пароля, подробнее в справке"""
 
 
 class InvalidSpecialSymbolError(Exception):
