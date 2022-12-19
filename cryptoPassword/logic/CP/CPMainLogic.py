@@ -144,4 +144,3 @@ class CryptoPassword:
             else:
                 raise CustomEx.InvalidSecretWordsError
 
-                
