@@ -22,7 +22,7 @@ class CryptoPassword:
     """
 
     def __repr__(self):
-        return 'Class <SecretPassword> was created VV_403_ISaP'
+        return 'Class <CryptoPassword> was created by LEVIATHAN EQUILIBRIST'
 
     def __call__(self):
         return False
