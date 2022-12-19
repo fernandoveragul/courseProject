@@ -96,13 +96,14 @@ class CryptoPassword:
         :param message: current message for encode
         :return: encoded message
         """
+
         if is_password:
             message_is_valid = cls.__is_password_valid(message)
         else:
             message_is_valid = cls.__is_secret_word_valid(message)
 
-        encoded_message = b64.b32encode(b64.b64encode(message.encode()))
-        return b64.b16encode(encoded_message).decode() if message_is_valid else ''
+        encoded_message = b64.b85encode(b64.a85encode(message.encode()))
+        return encoded_message.decode() if message_is_valid else ''
 
     @classmethod
     def __decoding(cls, message: str) -> str:
@@ -111,8 +112,8 @@ class CryptoPassword:
         :param message: current message for decoding
         :return: decoded message
         """
-        secret_password = b64.b32decode(b64.b16decode(message.encode()))
-        return b64.b64decode(secret_password).decode()
+        secret_password = b64.a85decode(b64.b85decode(message.encode()))
+        return secret_password.decode()
 
     @classmethod
     def __join_values_pass_word(cls, word: str, password: str) -> str:
@@ -122,9 +123,10 @@ class CryptoPassword:
         :param password: encoded password
         :return: word + password
         """
+
         word_ = cls.__encoding(word, is_password=False)
         password_ = cls.__encoding(password, is_password=True)
-        return f'{word_}${password_}'
+        return f'{word_}№{password_}'
 
     @classmethod
     def start(cls, /, coding: list[str, str] = None, decoding: str = None, is_origin: bool = True) -> str | None:
@@ -135,12 +137,12 @@ class CryptoPassword:
         :param is_origin: if True, then encoding. If False, then decoding
         :return: encoded of decoded message
         """
+
         if is_origin is True:
             return cls.__join_values_pass_word(*coding)
         elif is_origin is False:
-            word, password = decoding.split('$') if decoding is not None else decoding
+            word, password = decoding.split('№') if decoding is not None else decoding
             if word == cls.__encoding(coding[0], is_password=False):
                 return cls.__decoding(password)
             else:
                 raise CustomEx.InvalidSecretWordsError
-
