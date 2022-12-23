@@ -129,4 +129,4 @@ class Ui_MainWindow(object):
         self.enterSecretWord.setPlaceholderText(_translate("MainWindow", "Введите секретное слово"))
         self.btnShow.setText(_translate("MainWindow", "ПОКАЗАТЬ"))
         self.chbDecoding.setText(_translate("MainWindow", "ДЕКОДИРОВАНИЕ"))
-        self.btnCoding.setText(_translate("MainWindow", "КОДИРОВАНИЕ"))
+        self.btnCoding.setText(_translate("MainWindow", "ВЫПОЛНИТЬ"))
