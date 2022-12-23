@@ -87,12 +87,10 @@ class CurrentApplication(QtWidgets.QMainWindow, design.main_design):
         self.about_window.showMaximized()
 
     def __change_text(self):
-        if self.btnCoding.text() == "КОДИРОВАНИЕ":
+        if self.chbDecoding.text() == "ДЕКОДИРОВАНИЕ":
             self.enterSecterPassword.setPlaceholderText("Введите зашифрованный пароль")
-            self.btnCoding.setText("ДЕКОДИРОВАНИЕ")
             self.chbDecoding.setText("КОДИРОВАНИЕ")
         else:
-            self.btnCoding.setText("КОДИРОВАНИЕ")
             self.chbDecoding.setText("ДЕКОДИРОВАНИЕ")
             self.enterSecterPassword.setPlaceholderText("Введите пароль")
 
