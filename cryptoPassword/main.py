@@ -18,9 +18,11 @@ class CurrentApplication(QtWidgets.QMainWindow, design.main_design):
         super().__init__()
         self.setupUi(self)
         self.about_window = None
-        self.btnAbout.clicked.connect(self.info_about_app)
+        self.btnAbout.clicked.connect(self.__info_about_app)
         self.btnCoding.clicked.connect(self.__encoding_decoding)
         self.btnShow.clicked.connect(self.__show_data)
+
+        self.chbDecoding.pressed.connect(self.__change_text)
 
         # ToolTips:
         self.btnShow.setToolTip('Кнопка "ПОКАЗАТЬ" выводит сообщение\nс введёнными секретным словом и паролем')
@@ -77,12 +79,22 @@ class CurrentApplication(QtWidgets.QMainWindow, design.main_design):
                                           f'С${self.enterSecretWord.text()[::-1]}'
                                           f'\nП${self.enterSecterPassword.text()[::-1]}')
 
-    def info_about_app(self) -> None:
+    def __info_about_app(self) -> None:
         """
         ``Function make show about window``
         """
         self.about_window = AboutApplication()
         self.about_window.showMaximized()
+
+    def __change_text(self):
+        if self.btnCoding.text() == "КОДИРОВАНИЕ":
+            self.enterSecterPassword.setPlaceholderText("Введите зашифрованный пароль")
+            self.btnCoding.setText("ДЕКОДИРОВАНИЕ")
+            self.chbDecoding.setText("КОДИРОВАНИЕ")
+        else:
+            self.btnCoding.setText("КОДИРОВАНИЕ")
+            self.chbDecoding.setText("ДЕКОДИРОВАНИЕ")
+            self.enterSecterPassword.setPlaceholderText("Введите пароль")
 
 
 if __name__ == "__main__":
