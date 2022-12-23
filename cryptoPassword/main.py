@@ -68,11 +68,11 @@ class CurrentApplication(QtWidgets.QMainWindow, design.main_design):
         """
 
         if self.chbDecoding.isChecked():
-            sw, sp, is_or = self.enterSecretWord.text(), self.enterSecterPassword.text(), False  # DECODING IS TRUE
-            return {'coding': [sw], 'decoding': sp, 'is_origin': is_or}
+            word, password = self.enterSecretWord.text(), self.enterSecterPassword.text()  # DECODING
+            return {'coding': [word], 'decoding': password, 'is_origin': False}
         else:
-            swp, is_or = [self.enterSecretWord.text(), self.enterSecterPassword.text()], True  # DECODING IS FALSE
-            return {'coding': swp, 'decoding': None, 'is_origin': is_or}
+            word_and_password = [self.enterSecretWord.text(), self.enterSecterPassword.text()]  # ENCODING
+            return {'coding': word_and_password, 'decoding': None, 'is_origin': True}
 
     def __show_data(self) -> None:
         QtWidgets.QMessageBox.information(self, "Пароль и слово",
