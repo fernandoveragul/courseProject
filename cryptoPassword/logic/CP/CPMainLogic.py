@@ -142,7 +142,10 @@ class CryptoPassword:
         if is_origin is True:
             return cls.__join_values_pass_word(*coding)
         elif is_origin is False:
-            word, password = decoding.split('№') if decoding is not None else decoding
+            try:
+                word, password = decoding.split('№') if decoding is not None else decoding
+            except ValueError:
+                raise CustomEx.EmptyAnyLineEdit
             if word == cls.__encoding(coding[0], is_password=False):
                 return cls.__decoding(password)
             else:
