@@ -1,6 +1,7 @@
 import sys
 import pyperclip
 import design
+from design import resources
 from logic.CP import *
 from PyQt5 import QtWidgets, QtGui
 
@@ -27,7 +28,7 @@ class CurrentApplication(QtWidgets.QMainWindow, design.main_design):
         # ToolTips:
         self.btnShow.setToolTip('Кнопка "ПОКАЗАТЬ" выводит сообщение\nс введёнными секретным словом и паролем')
         self.btnAbout.setToolTip('Кнопка "СПРАВКА" открывает окно справки')
-        self.btnCoding.setToolTip('Кнопка "КОДИРОВАНИЕ" кодирует/декодирует сообщение')
+        self.btnCoding.setToolTip('Кнопка "ВЫПОЛНИТЬ" кодирует/декодирует сообщение')
         self.chbDecoding.setToolTip('Чтобы выполнить декодирование сообщения установите галочку')
         self.enterSecretWord.setToolTip("Введите секретное слово, правила написания описаны в справке")
         self.enterSecterPassword.setToolTip("Введите пароль, правила написания описаны в справке")
@@ -45,7 +46,7 @@ class CurrentApplication(QtWidgets.QMainWindow, design.main_design):
             QtWidgets.QMessageBox.information(self, "Успешно", self.INFO_MESSAGE)
         except CustomExceptions.InvalidSecretWordsError as ex:
             QtWidgets.QMessageBox.warning(self, "Ошибка", ex.__doc__)  # Error handling without
-        except CustomExceptions.InvalidSpecialSymbolError as ex:          # stopping the program cycle
+        except CustomExceptions.InvalidSpecialSymbolError as ex:  # stopping the program cycle
             QtWidgets.QMessageBox.warning(self, "Ошибка", ex.__doc__)
         except CustomExceptions.InvalidLowUpCasePassword as ex:
             QtWidgets.QMessageBox.warning(self, "Ошибка", ex.__doc__)
@@ -68,11 +69,11 @@ class CurrentApplication(QtWidgets.QMainWindow, design.main_design):
         """
 
         if self.chbDecoding.isChecked():
-            word, password = self.enterSecretWord.text(), self.enterSecterPassword.text()  # DECODING
-            return {'coding': [word], 'decoding': password, 'is_origin': False}
+            word, password = self.enterSecretWord.text(), self.enterSecterPassword.text()
+            return {'coding': [word], 'decoding': password, 'is_origin': False}  # DECODING
         else:
-            word_and_password = [self.enterSecretWord.text(), self.enterSecterPassword.text()]  # ENCODING
-            return {'coding': word_and_password, 'decoding': None, 'is_origin': True}
+            word_and_password = [self.enterSecretWord.text(), self.enterSecterPassword.text()]
+            return {'coding': word_and_password, 'decoding': None, 'is_origin': True}  # ENCODING
 
     def __show_data(self) -> None:
         QtWidgets.QMessageBox.information(self, "Пароль и слово",
@@ -87,11 +88,11 @@ class CurrentApplication(QtWidgets.QMainWindow, design.main_design):
         self.about_window.showMaximized()
 
     def __change_text(self):
-        if self.chbDecoding.text() == "ДЕКОДИРОВАНИЕ":
+        if self.chbDecoding.text() == "КОДИРОВАНИЕ":
             self.enterSecterPassword.setPlaceholderText("Введите зашифрованный пароль")
-            self.chbDecoding.setText("КОДИРОВАНИЕ")
-        else:
             self.chbDecoding.setText("ДЕКОДИРОВАНИЕ")
+        else:
+            self.chbDecoding.setText("КОДИРОВАНИЕ")
             self.enterSecterPassword.setPlaceholderText("Введите пароль")
 
 
