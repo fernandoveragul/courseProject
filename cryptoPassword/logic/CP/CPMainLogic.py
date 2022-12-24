@@ -67,7 +67,7 @@ class CryptoPassword:
 
     @classmethod
     def __is_secret_word_valid(cls, word: str) -> bool:
-        if word == '':
+        if word == '' or word is None:
             raise CustomEx.EmptyAnyLineEdit
 
         if check_lowup_is_done := cls.__is_lowupcase_valid(word, is_password=False):
@@ -78,7 +78,7 @@ class CryptoPassword:
 
     @classmethod
     def __is_password_valid(cls, password: str) -> bool:
-        if password == '':
+        if password == '' or password is None:
             raise CustomEx.EmptyAnyLineEdit
 
         if check_lowup_is_done := cls.__is_lowupcase_valid(password, is_password=True):
@@ -112,8 +112,9 @@ class CryptoPassword:
         :param message: current message for decoding
         :return: decoded message
         """
-        secret_password = b64.a85decode(b64.b85decode(message.encode()))
-        return secret_password.decode()
+
+        decoded_message = b64.a85decode(b64.b85decode(message.encode()))
+        return decoded_message.decode()
 
     @classmethod
     def __join_values_pass_word(cls, word: str, password: str) -> str:
