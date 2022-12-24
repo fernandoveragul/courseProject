@@ -123,10 +123,10 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "Шифровщик паролей"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "Шифровщик паролей по кодовому слову"))
         self.btnAbout.setText(_translate("MainWindow", "СПРАВКА"))
         self.enterSecterPassword.setPlaceholderText(_translate("MainWindow", "Введите пароль"))
         self.enterSecretWord.setPlaceholderText(_translate("MainWindow", "Введите секретное слово"))
         self.btnShow.setText(_translate("MainWindow", "ПОКАЗАТЬ"))
-        self.chbDecoding.setText(_translate("MainWindow", "ДЕКОДИРОВАНИЕ"))
+        self.chbDecoding.setText(_translate("MainWindow", "КОДИРОВАНИЕ"))
         self.btnCoding.setText(_translate("MainWindow", "ВЫПОЛНИТЬ"))
