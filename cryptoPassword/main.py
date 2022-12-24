@@ -7,12 +7,19 @@ from PyQt5 import QtWidgets, QtGui
 
 
 class AboutApplication(QtWidgets.QWidget, design.about_design):
+    """
+    ``About window``
+    """
     def __init__(self):
         super().__init__()
         self.setupUi(self)
 
 
 class CurrentApplication(QtWidgets.QMainWindow, design.main_design):
+    """
+    ``Main window``
+    """
+
     INFO_MESSAGE = 'ИНФОРМАЦИЯ БЫЛА СКОПИРОВАНА В БУФЕР ОБМЕНА'
 
     def __init__(self):
