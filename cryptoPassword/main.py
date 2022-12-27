@@ -10,6 +10,7 @@ class AboutApplication(QtWidgets.QWidget, design.about_design):
     """
     ``About window``
     """
+    
     def __init__(self):
         super().__init__()
         self.setupUi(self)
@@ -44,6 +45,7 @@ class CurrentApplication(QtWidgets.QMainWindow, design.main_design):
         """
         ``The function encodes/decodes password and secret word, and also handles errors``
         """
+        
         data: dict = self.__take_values()
         self.lblOutput.setText('')
         try:
@@ -91,6 +93,7 @@ class CurrentApplication(QtWidgets.QMainWindow, design.main_design):
         """
         ``Function make show about window``
         """
+        
         self.about_window = AboutApplication()
         self.about_window.showMaximized()
 
